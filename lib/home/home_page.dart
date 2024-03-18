@@ -1,23 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/home/repositories/weather_repository.dart';
+import 'package:weather_app/const/CustomStyle/customstyle.dart';
 
-class HomePage extends StatelessWidget {
+import 'package:weather_app/models/weather.dart';
+
+import 'package:weather_app/widget/tab_bar.dart';
+import 'package:weather_app/widget/weather_card.dart';
+
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  Weather? weather;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Weather App'),
+        backgroundColor: const Color.fromARGB(0, 123, 40, 40),
+        elevation: 0,
       ),
-      body: Center(
-        child: FilledButton(
-          child: const Text('fetch weather'),
-          onPressed: () {
-            WeatherRepository().getWeather('Stuttgart');
-          },
-        ),
+      bottomNavigationBar: const MyNavBar(),
+      body: Stack(
+        children: [
+          Container(
+            decoration: customBackground(),
+            child: const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                WeatherCard(city: 'München'),
+                Center(),
+              ],
+            ),
+          ),
+        ],
       ),
+      
+      
     );
   }
 }

@@ -6,13 +6,6 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Weather App',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const HomePage(),
-    );
+    return const MaterialApp(debugShowCheckedModeBanner: false, title: 'Weather App', home: HomePage());
   }
 }
