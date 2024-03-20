@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/home/new_page.dart';
+import 'package:weather_app/home/repositories/weather_repository.dart';
 
-class MyNavBar extends StatefulWidget {
-  const MyNavBar({super.key});
+class MyNavBar extends StatelessWidget {
+   MyNavBar({super.key});
 
-  @override
-  State<MyNavBar> createState() => _MyNavBarState();
-}
+ final WeatherRepository weatherRepository = WeatherRepository();
 
-class _MyNavBarState extends State<MyNavBar> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -49,7 +47,7 @@ class _MyNavBarState extends State<MyNavBar> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>  NewPage(),
+                  builder: (context) =>  NewPage(repository: weatherRepository,),
                 ),
               );
             },

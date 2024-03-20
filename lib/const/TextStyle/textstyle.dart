@@ -10,3 +10,6 @@ const myIconBttn = ButtonStyle(
   ),
   iconColor: MaterialStatePropertyAll(Colors.white),
 );
+const myWeatherRowTextStyle1 = TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.white30);
+const myWeatherHeaderTextStyle2 = TextStyle(fontSize: 40, fontWeight: FontWeight.normal, color: Colors.white);
+const myWeatherRowTextStyle2 = TextStyle(fontSize: 22, fontWeight: FontWeight.normal, color: Colors.white);
