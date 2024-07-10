@@ -1,12 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:weather_app/const/CustomStyle/customstyle.dart';
 import 'package:weather_app/home/repositories/weather_repository.dart';
 import 'package:weather_app/widget/tab_bar.dart';
 import 'package:weather_app/widget/weather_card_next.dart';
 
+
 class NewPage extends StatefulWidget {
-  NewPage({required this.repository, super.key});
+  NewPage({required this.repository, Key? key}) : super(key: key);
 
   final WeatherRepository repository;
 
@@ -15,7 +16,18 @@ class NewPage extends StatefulWidget {
 }
 
 class _NewPageState extends State<NewPage> {
-  final cityController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+
+  void _getWeatherByCity(String city) async {
+    try {
+      await widget.repository.getWeatherByCity(city);
+      widget.repository.addCity(city);
+      _cityController.clear();
+      setState(() {});
+    } catch (e) {
+      print('Error fetching weather: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,20 +51,15 @@ class _NewPageState extends State<NewPage> {
           body: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(12.0),
                 child: CupertinoSearchTextField(
-                  controller: cityController,
-                  onSubmitted: (value) {
-                    setState(() {
-                      widget.repository.addCity(value);
-                      cityController.clear();
-                    });
-                  },
+                  controller: _cityController,
+                  onSubmitted: _getWeatherByCity,
                   prefixIcon: const Icon(
                     CupertinoIcons.search,
                     color: Colors.white,
                   ),
-                  placeholder: 'Search for a city or airport',
+                  placeholder: 'Search for a city',
                   borderRadius: const BorderRadius.all(
                     Radius.circular(16),
                   ),
@@ -60,25 +67,24 @@ class _NewPageState extends State<NewPage> {
               ),
               Expanded(
                 child: ListView.builder(
-                    itemCount: widget.repository.citys.length,
-                    itemBuilder: (context, index) {
-                      final item = widget.repository.citys[index];
-                      return Dismissible(key: ValueKey(item),
-                        background: Container(
-                          decoration: customBackground1(),
-                          child: const Icon(Icons.delete,color: Colors.white,),
-                          
-                        ),onDismissed: (direction) {
-                          setState(() {
-                            widget.repository.removeCity(item);
-
-                          });
-                        },
-                        child: WeatherCard1(
-                          city: item,
-                        ),
-                      );
-                    }),
+                  itemCount: widget.repository.cities.length,
+                  itemBuilder: (context, index) {
+                    final city = widget.repository.cities[index];
+                    return Dismissible(
+                      key: ValueKey(city),
+                      background: Container(
+                        decoration: customBackground1(),
+                        child: const Icon(Icons.delete, color: Colors.white),
+                      ),
+                      onDismissed: (direction) {
+                        setState(() {
+                          widget.repository.removeCity(city);
+                        });
+                      },
+                      child: WeatherCard1(city: city),
+                    );
+                  },
+                ),
               ),
             ],
           ),

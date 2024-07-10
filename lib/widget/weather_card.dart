@@ -67,7 +67,7 @@ class _WeatherCardState extends State<WeatherCard> {
                           ),
                           const SizedBox(width: 10),
                           Text(
-                            'L: ${snapshot.data!.minTemp}°C',
+                            'T: ${snapshot.data!.minTemp}°C',
                             style: myWeatherRowTextStyle,
                           ),
                         ],
